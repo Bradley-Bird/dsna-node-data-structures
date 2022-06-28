@@ -55,7 +55,7 @@ class BinaryTreeNode {
     }
   
     add(node) {
-        if (node.value === this.value) {
+        if (node.value < this.value) {
             if (!this.left) {
               this.left = node;
             } else {
@@ -90,13 +90,54 @@ class PersonTreeNode {
     }
   
     add(node) {
-      // implemented as in previous challenge
+        if (node.value < this.value) {
+            if (!this.left) {
+              this.left = node;
+            } else {
+              this.left.add(node);
+            }
+          } else {
+            if (!this.right) {
+              this.right = node;
+            } else {
+              this.right.add(node);
+            }
+          }
     }
   
     findPerson(name) {
-      // Implement me!
+        if (this.value === name) {
+            return this.person;
+        }
+        if (this.left) {
+            const person = this.left.findPerson(name);
+            if (person) {
+                return person;
+            }
+        }
+        if (this.right) {
+            const person = this.right.findPerson(name);
+            if (person) {
+                return person;
+            }
+        }
     }
   }
+    const person1 = {name: 'Nelson', phone: '555-1212', address: '123 Main St'};
+    const person6 = {name: 'Nelly', phone: '555-5555', address: '123 Main St'};
+    const person2 = {name: 'John', phone: '555-1212', address: '123 Main St'};
+    const person4 = {name: 'Steve', phone: '555-1212', address: '123 Main St'};
+    const person5 = {name: 'Brandy', phone: '555-1212', address: '123 Main St'};
+    const person3 = {name: 'Bob', phone: '555-1212', address: '123 Main St'};
 
+    const tree = new PersonTreeNode(person2);
+    tree.add(new PersonTreeNode(person5));
+    tree.add(new PersonTreeNode(person4));
+    tree.add(new PersonTreeNode(person6));
+    tree.add(new PersonTreeNode(person1));
+    tree.add(new PersonTreeNode(person3));
+    
+
+    console.log(tree.findPerson('Nelson'));
 
 module.exports = { LinkedList, BinaryTreeNode, PersonTreeNode };
